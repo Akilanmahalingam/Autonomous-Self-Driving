@@ -7,7 +7,7 @@ class Car:
         self.distance = distance
         self.time = time
         self.rank = -10
-    
+   
     def move(self):
         print('The car', self.name, 'is moving at', self.speed, 'km/h')
     
@@ -78,9 +78,13 @@ def simulate_environment(cars, agent, timeout, speed_rate):
         while (car_B.time - car_A.time <= timeout):
             # Ensure state is within the valid range
             state = min(max(0, int(car_B.distance)), agent.num_states - 1)
-            action = agent.choose_action(state)
-            if action == 0:  # Decelerate
+            state_action = agent.choose_action(state)
+            if state_action == 0:  # Decelerate
                 car_B.speed -= speed_rate
+            # elif state_action == 1:  # Maintain speed
+            #     pass  # No change in speed
+            # elif state_action == 2:  # Accelerate
+            #     car_B.speed += speed_rate
             car_B.time = car_B.distance / car_B.speed
             next_state = int(car_B.distance)
             agent.update_values()
